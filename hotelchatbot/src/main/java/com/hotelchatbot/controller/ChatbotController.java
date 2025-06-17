@@ -18,7 +18,7 @@ public class ChatbotController {
 
     @PostMapping("/chat")
     public String postMethodName(@RequestBody String userQuery) {
-        System.out.println(userQuery);
+        System.out.println(userQuery + "\n");
         return chatService.generateResponse("asdf", userQuery);
     }
     

@@ -1,1 +1,2 @@
+# Ignore secrets/sensitive data
 hotelchatbot/src/main/resources/secrets.properties

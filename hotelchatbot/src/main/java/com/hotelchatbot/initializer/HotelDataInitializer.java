@@ -45,7 +45,7 @@ public class HotelDataInitializer {
             Amenities a_Parking = amenitiesService.findByName("Parking");
             Amenities a_AirportS = amenitiesService.findByName("Airport Shuttle");
             Amenities a_Beach = amenitiesService.findByName("Beach Nearby");
-            Amenities a_AmuseParkS = amenitiesService.findByName("Amusement Park Shuttle");
+            Amenities a_AmuseParkS = amenitiesService.findByName("Amusement Park Nearby");
             Amenities a_TourBus = amenitiesService.findByName("Tour Bus Shuttle");
             
             // HotelRoom Amenities

@@ -22,7 +22,7 @@ public class AmenitiesDataInitializer {
             Amenities a4 = new Amenities("Parking");
             Amenities a5 = new Amenities("Airport Shuttle");
             Amenities a6 = new Amenities("Beach Nearby");
-            Amenities a7 = new Amenities("Amusement Park Shuttle");
+            Amenities a7 = new Amenities("Amusement Park Nearby");
             Amenities a8 = new Amenities("Tour Bus Shuttle");
 
             // HotelRoom-specific amenities
