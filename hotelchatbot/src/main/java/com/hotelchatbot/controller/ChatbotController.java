@@ -1,6 +1,8 @@
 package com.hotelchatbot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +18,11 @@ public class ChatbotController {
     @Autowired
     ChatService chatService;
 
-    @PostMapping("/chat")
-    public String postMethodName(@RequestBody String userQuery) {
+    @PostMapping("/chat/{conversationId}")
+    public ResponseEntity<String> postMethodName(@PathVariable String conversationId, @RequestBody String userQuery) {
         System.out.println(userQuery + "\n");
-        return chatService.generateResponse("asdf", userQuery);
+        String response = chatService.generateResponse("asdf", userQuery);
+        return ResponseEntity.ok().body(response);
     }
     
 

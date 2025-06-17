@@ -23,6 +23,7 @@ public class HotelRoom {
     @Column(name = "hotelRoomId")
     private Integer hotelRoomId; // PK
     private int noRooms;
+    private int guestsPerRoom;
     private float price;
     private float discount;
     private String description;
@@ -43,7 +44,31 @@ public class HotelRoom {
     public HotelRoom() {
     }
 
-    public HotelRoom(int noRooms, float price, float discount, String description, String policies,
+    public int getGuestsPerRoom() {
+        return guestsPerRoom;
+    }
+
+    public void setGuestsPerRoom(int guestsPerRoom) {
+        this.guestsPerRoom = guestsPerRoom;
+    }
+
+    public String getAvailablityStartDate() {
+        return availablityStartDate;
+    }
+
+    public void setAvailablityStartDate(String availablityStartDate) {
+        this.availablityStartDate = availablityStartDate;
+    }
+
+    public String getAvailabiltyEndDate() {
+        return availabiltyEndDate;
+    }
+
+    public void setAvailabiltyEndDate(String availabiltyEndDate) {
+        this.availabiltyEndDate = availabiltyEndDate;
+    }
+
+    public HotelRoom(int noRooms, int guestsPerRoom,float price, float discount, String description, String policies,
             RoomType type, Set<Amenities> amenities, String availablityStartDate, String availabiltyEndDate) {
         this.noRooms = noRooms;
         this.price = price;
@@ -54,6 +79,7 @@ public class HotelRoom {
         this.amenities = amenities;
         this.availablityStartDate = availablityStartDate;
         this.availabiltyEndDate = availabiltyEndDate;
+        this.guestsPerRoom = guestsPerRoom;
     }
 
     public String getRoomType() {
@@ -151,6 +177,7 @@ public class HotelRoom {
         sb.append("Price: $").append(String.format("%.2f", price)).append(". ");
         sb.append("Discount: ").append(String.format("%.2f", discount)).append("%. ");
         sb.append("Number of Rooms: ").append(noRooms).append(". ");
+        sb.append("Guests Allowed per Room: ").append(guestsPerRoom).append(". ");
         sb.append("Description: ").append(description).append(". ");
         sb.append("Policies: ").append(policies).append(". ");
         sb.append("Available from ").append(availablityStartDate).append(" to ").append(availabiltyEndDate).append(". ");
@@ -178,6 +205,7 @@ public class HotelRoom {
         sb.append("\"price\": ").append(String.format("%.2f", price)).append(", ");
         sb.append("\"discount\": ").append(String.format("%.2f", discount)).append(", ");
         sb.append("\"noRooms\": ").append(noRooms).append(", ");
+        sb.append("\"guestsAllowedPerRoom\": ").append(guestsPerRoom).append(", ");
         sb.append("\"description\": \"").append(description).append("\", ");
         sb.append("\"policies\": \"").append(policies).append("\", ");
         sb.append("\"availablityStartDate\": \"").append(availablityStartDate).append("\", ");

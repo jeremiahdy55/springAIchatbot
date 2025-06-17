@@ -219,13 +219,16 @@ public class Hotel {
 		}
 	
 		if (hotelRooms != null && !hotelRooms.isEmpty()) {
+			int guestsAvailable = 0;
 			sb.append("Rooms: ");
 			for (HotelRoom room : hotelRooms) {
+				guestsAvailable += (room.getNoRooms() * room.getGuestsPerRoom());
 				sb.append(room.getType().getName()).append(" with features: ");
 				Set<Amenities> roomAmenities = room.getAmenities();
 				roomAmenities.removeAll(this.amenities);
 				sb.append(roomAmenities.stream().map(Amenities::getName).collect(Collectors.joining(", "))).append(". ");
 			}
+			sb.append("Available Guest Capacity: ").append(guestsAvailable).append(". ");
 		}
 	
 		return sb.toString();
@@ -257,20 +260,25 @@ public class Hotel {
 		
 	
 		if (hotelRooms != null && !hotelRooms.isEmpty()) {
-			sb.append("\"rooms\": [");
+			int guestsAvailable = 0;
+			StringBuilder roomSB = new StringBuilder();
+			roomSB.append("\"rooms\": [");
 			for (HotelRoom room : hotelRooms) {
-				sb.append("{");
-				sb.append("\"hotelRoomId\": ").append(room.getHotelRoomId()).append(", ");
-				sb.append("\"type\": ").append(wrapInQuotes(room.getType().getName())).append(", ");
+				guestsAvailable += (room.getNoRooms() * room.getGuestsPerRoom());
+				roomSB.append("{");
+				roomSB.append("\"hotelRoomId\": ").append(room.getHotelRoomId()).append(", ");
+				roomSB.append("\"type\": ").append(wrapInQuotes(room.getType().getName())).append(", ");
 				Set<Amenities> roomAmenities = room.getAmenities();
 				roomAmenities.removeAll(this.amenities);
-				sb.append("\"amenities\": [").append(roomAmenities.stream().map(Amenities::getName).map(amenity -> wrapInQuotes(amenity)).collect(Collectors.joining(", "))).append("]}, ");
+				roomSB.append("\"amenities\": [").append(roomAmenities.stream().map(Amenities::getName).map(amenity -> wrapInQuotes(amenity)).collect(Collectors.joining(", "))).append("]}, ");
 			}
+			roomSB.deleteCharAt(roomSB.length()-1);
+			roomSB.deleteCharAt(roomSB.length()-1);
+			roomSB.append("]");
+			roomSB.append("}");
+			sb.append("\"guestCapacityRemaining\": ").append(guestsAvailable).append(", ");
+			sb.append(roomSB);
 		}
-		sb.deleteCharAt(sb.length()-1);
-		sb.deleteCharAt(sb.length()-1);
-		sb.append("]");
-		sb.append("}");
         return sb.toString();
     }
 

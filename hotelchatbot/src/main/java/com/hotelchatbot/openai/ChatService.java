@@ -72,6 +72,7 @@ public class ChatService {
     public String generateResponse(String conversationId, String input) {
         String systemMessageHeader = "Please use the provided entity data to formulate your response.\n";
         String userQuery = StopWords.removeStopWords(input);
+        String returnText = null;
         // If this is the first message from the user, initialize the chatbot
         if (chatMemory.get(conversationId).isEmpty()) {
             chatMemory.add(conversationId, new SystemMessage(initChatbotMessage));
@@ -109,15 +110,15 @@ public class ChatService {
                     break;
             }
             ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
+            returnText = response.getResult().getOutput().getText();
             // System.out.println(response);
             // System.out.println(response.getResult());
-            System.out.println(response.getResult().getOutput().getText());
+            // System.out.println(response.getResult().getOutput().getText());
         } catch (IOException err) {
             err.printStackTrace();
             System.out.println("Error thrown in ChatService.generateResponse()!");
         }
-        
-        return null;
+        return returnText;
 
     }
     
