@@ -56,13 +56,14 @@ public class ChatService {
             You are a helpful assistant that classifies user queries as related to either the \
             Hotel or HotelRoom entity. Hotel includes: name, price, location, contact info, amenities, \
             and description. HotelRoom refers to a room type within a hotel, including: room count, pricing, \
-            policies, amenities, and description. Respond only with \"Hotel\" or \"HotelRoom\".""";
+            policies, amenities, and description. Respond only with \"Hotel\" or \"HotelRoom\". \
+            If the user query is determined to not be asking about Hotel or HotelRoom entities, then return \"Generic\".""";
         messages.add(new SystemMessage(queryContext));
         messages.add(new UserMessage(StopWords.removeStopWords(userQuery)));
         String response = chatModel.call(new Prompt(messages)).getResult().getOutput().getText();
 
         // If the response isn't "Hotel" or "HotelRoom", return ""
-        if (response == null || !(response.equals("Hotel") || response.equals("HotelRoom"))) {
+        if (response == null || !(response.equals("Hotel") || response.equals("HotelRoom") || response.equals("Generic"))) {
             return "";
         } else {
             return response;
@@ -80,43 +81,50 @@ public class ChatService {
         int attemptNo = 0;
         String entityToSearch = "";
         // Determine the table to semantic search (cosine similarity with vector embeddings of the data)
-        while (attemptNo < 3  && entityToSearch.equals("")) {
+        while (attemptNo < 3 && entityToSearch.equals("")) {
             entityToSearch = determineEntityForSemanticSearch(userQuery);
             attemptNo++;
         }
-        System.out.println("This is the entity to search" + entityToSearch);
-        try {
-            float[] userQueryEmbedding = embeddingService.getEmbedding(userQuery);
-            switch (entityToSearch) {
-                case "Hotel":
-                    List<Hotel> hotels = hotelEmbeddingService.findTop3BySimilarity(userQueryEmbedding);
-                    String hotelData = hotels.stream().map(Hotel::toDataContextString).collect(Collectors.joining("\n"));
-                    System.out.println(systemMessageHeader + hotelData);
-                    SystemMessage hotelContextMessage = new SystemMessage(systemMessageHeader + hotelData);
-                    chatMemory.add(conversationId, hotelContextMessage);
-                    chatMemory.add(conversationId, new UserMessage(userQuery));
-                    break;
-                case "HotelRoom":
-                    List<HotelRoom> rooms = hotelRoomEmbeddingService.findTop5BySimilarity(userQueryEmbedding);
-                    String roomData = rooms.stream().map(HotelRoom::toDataContextString).collect(Collectors.joining("\n"));
-                    System.out.println(systemMessageHeader + roomData);
-                    SystemMessage hotelRoomContextMessage = new SystemMessage(systemMessageHeader + roomData);
-                    chatMemory.add(conversationId, hotelRoomContextMessage);
-                    chatMemory.add(conversationId, new UserMessage(userQuery));
-                    chatMemory.add(conversationId, new UserMessage(userQuery));
-                    break;
-                default:
-                    System.out.println("User query is not about Hotel or HotelRoom! Break!");
-                    break;
-            }
+        System.out.println("This is the entity to search " + entityToSearch);
+        System.out.println(new Prompt(chatMemory.get(conversationId)));
+        if (entityToSearch.equals("Generic")) {
+            chatMemory.add(conversationId, new UserMessage(userQuery));
             ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
             returnText = response.getResult().getOutput().getText();
-            // System.out.println(response);
-            // System.out.println(response.getResult());
-            // System.out.println(response.getResult().getOutput().getText());
-        } catch (IOException err) {
-            err.printStackTrace();
-            System.out.println("Error thrown in ChatService.generateResponse()!");
+        } else {
+            try {
+                float[] userQueryEmbedding = embeddingService.getEmbedding(userQuery);
+                switch (entityToSearch) {
+                    case "Hotel":
+                        List<Hotel> hotels = hotelEmbeddingService.findTop3BySimilarity(userQueryEmbedding);
+                        String hotelData = hotels.stream().map(Hotel::toJsonObjectString).collect(Collectors.joining("\n"));
+                        System.out.println(systemMessageHeader + hotelData);
+                        SystemMessage hotelContextMessage = new SystemMessage(systemMessageHeader + hotelData);
+                        chatMemory.add(conversationId, hotelContextMessage);
+                        chatMemory.add(conversationId, new UserMessage(userQuery));
+                        break;
+                    case "HotelRoom":
+                        List<HotelRoom> rooms = hotelRoomEmbeddingService.findTop5BySimilarity(userQueryEmbedding);
+                        String roomData = rooms.stream().map(HotelRoom::toJsonObjectString).collect(Collectors.joining("\n"));
+                        System.out.println(systemMessageHeader + roomData);
+                        SystemMessage hotelRoomContextMessage = new SystemMessage(systemMessageHeader + roomData);
+                        chatMemory.add(conversationId, hotelRoomContextMessage);
+                        chatMemory.add(conversationId, new UserMessage(userQuery));
+                        chatMemory.add(conversationId, new UserMessage(userQuery));
+                        break;
+                    default:
+                        System.out.println("User query is not about Hotel or HotelRoom! Break!");
+                        break;
+                }
+                ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
+                returnText = response.getResult().getOutput().getText();
+                // System.out.println(response);
+                // System.out.println(response.getResult());
+                // System.out.println(response.getResult().getOutput().getText());
+            } catch (IOException err) {
+                err.printStackTrace();
+                System.out.println("Error thrown in ChatService.generateResponse()!");
+            }
         }
         return returnText;
 

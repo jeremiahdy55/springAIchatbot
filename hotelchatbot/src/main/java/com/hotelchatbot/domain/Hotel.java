@@ -235,17 +235,17 @@ public class Hotel {
 	}
 
 	// formats the Hotel object into a JSON format
-    public String toDataContextString() {
+    public String toJsonObjectString() {
         StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		sb.append("\"name\": \"").append(hotelName).append("\", ");
+		sb.append("\"name\": ").append(wrapInQuotes(hotelName)).append(", ");
 		sb.append("\"address\": \"").append(address).append(", ").append(city).append(", ").append(state).append("\", ");
 		sb.append("\"starRating\": ").append(starRating).append(", ");
 		sb.append("\"avgPrice\": ").append(String.format("%.2f", averagePrice)).append(", ");
 		sb.append("\"discount\": ").append(String.format("%.2f", discount)).append(", ");
-		sb.append("\"description\": \"").append(description).append("\", ");
-		sb.append("\"email\": \"").append(email).append("\", ");
-		sb.append("\"mobile\": \"").append(mobile).append("\", ");
+		sb.append("\"description\": ").append(wrapInQuotes(description)).append(", ");
+		sb.append("\"email\": ").append(wrapInQuotes(email)).append(", ");
+		sb.append("\"mobile\": ").append(wrapInQuotes(mobile)).append(", ");
 		sb.append("\"timeBooked\": ").append(timesBooked).append(", ");
 	
 		if (amenities != null && !amenities.isEmpty()) {
@@ -268,6 +268,8 @@ public class Hotel {
 				roomSB.append("{");
 				roomSB.append("\"hotelRoomId\": ").append(room.getHotelRoomId()).append(", ");
 				roomSB.append("\"type\": ").append(wrapInQuotes(room.getType().getName())).append(", ");
+				roomSB.append("\"availabilityStartDate\": ").append(wrapInQuotes(room.getAvailablityStartDate())).append(", ");
+				roomSB.append("\"availabilityEndDate\": ").append(wrapInQuotes(room.getAvailabiltyEndDate())).append(", ");
 				Set<Amenities> roomAmenities = room.getAmenities();
 				roomAmenities.removeAll(this.amenities);
 				roomSB.append("\"amenities\": [").append(roomAmenities.stream().map(Amenities::getName).map(amenity -> wrapInQuotes(amenity)).collect(Collectors.joining(", "))).append("]}, ");

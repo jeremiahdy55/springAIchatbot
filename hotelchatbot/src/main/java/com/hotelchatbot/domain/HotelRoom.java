@@ -198,7 +198,7 @@ public class HotelRoom {
     }
 
     // formats the HotelRoom object into a JSON format
-    public String toDataContextString() {
+    public String toJsonObjectString() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"type\": \"").append(type != null ? type.getName() : "Unknown").append("\", ");
@@ -206,10 +206,10 @@ public class HotelRoom {
         sb.append("\"discount\": ").append(String.format("%.2f", discount)).append(", ");
         sb.append("\"noRooms\": ").append(noRooms).append(", ");
         sb.append("\"guestsAllowedPerRoom\": ").append(guestsPerRoom).append(", ");
-        sb.append("\"description\": \"").append(description).append("\", ");
-        sb.append("\"policies\": \"").append(policies).append("\", ");
-        sb.append("\"availablityStartDate\": \"").append(availablityStartDate).append("\", ");
-        sb.append("\"availabiltyEndDate\": \"").append(availabiltyEndDate).append("\", ");
+        sb.append("\"description\": ").append(wrapInQuotes(description)).append(", ");
+        sb.append("\"policies\": ").append(wrapInQuotes(policies)).append(", ");
+        sb.append("\"availablityStartDate\": ").append(wrapInQuotes(availablityStartDate)).append(", ");
+        sb.append("\"availabiltyEndDate\": ").append(wrapInQuotes(availabiltyEndDate)).append(", ");
 
     
         if (amenities != null && !amenities.isEmpty()) {
@@ -223,8 +223,8 @@ public class HotelRoom {
     
         if (hotel != null) {
             sb.append("\"hotelId\": ").append(hotel.getHotelId()).append(", ");
-            sb.append("\"hotelId\": \"").append(hotel.getHotelName()).append("\", ");
-            sb.append("\"hotelAddress\": \"").append(hotel.getCity()).append(", ").append(hotel.getState()).append("\"}");
+            sb.append("\"hotelId\": ").append(wrapInQuotes(hotel.getHotelName())).append(", ");
+            sb.append("\"hotelAddress\": \"").append(hotel.getAddress()).append(", ").append(hotel.getCity()).append(", ").append(hotel.getState()).append("\"}");
         }
         return sb.toString();
     }
