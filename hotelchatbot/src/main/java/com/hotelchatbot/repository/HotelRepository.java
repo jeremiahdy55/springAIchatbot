@@ -1,5 +1,6 @@
 package com.hotelchatbot.repository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,9 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hotelchatbot.domain.Hotel;
-import java.util.Set;
 import com.hotelchatbot.domain.Amenities;
-
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
@@ -26,7 +25,24 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
        OR LOWER(h.address) LIKE LOWER(CONCAT('%', :keyword, '%'))
     """)
     List<Hotel> searchHotelsByKeyword(@Param("keyword") String keyword);
-    
+
+    @Query("""
+    SELECT h
+    FROM Hotel h
+    JOIN h.hotelRooms hr
+    GROUP BY h
+    HAVING SUM(hr.noRooms) >= :guestCount
+    """)
+    List<Hotel> findHotelsByMinimumGuestAvailability(@Param("guestCount") int guestCount);
+
+    @Query("""
+    SELECT DISTINCT h
+    FROM Hotel h
+    JOIN h.hotelRooms hr
+    WHERE :targetDate BETWEEN hr.availabilityStartDate AND hr.availabilityEndDate
+    """)
+    List<Hotel> findHotelsWithRoomsAvailableOn(@Param("targetDate") LocalDate targetDate);
+
     @Query("SELECT h FROM Hotel h JOIN h.amenities a WHERE a IN :amenities")
     List<Hotel> findByAnyAmenities(@Param("amenities") Collection<Amenities> amenities);
 

@@ -1,5 +1,7 @@
 package com.hotelchatbot.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "hotel_rooms")
@@ -28,8 +31,8 @@ public class HotelRoom {
     private float discount;
     private String description;
     private String policies;
-    private String availablityStartDate;
-    private String availabiltyEndDate;
+    private LocalDate availablityStartDate;
+    private LocalDate availabiltyEndDate;
 
     @ManyToOne
     private RoomType type;
@@ -40,6 +43,9 @@ public class HotelRoom {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id") // foreign key in hotel_room table
     private Hotel hotel;
+
+    @Transient
+    DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("MM/dd/yy");
 
     public HotelRoom() {
     }
@@ -53,19 +59,19 @@ public class HotelRoom {
     }
 
     public String getAvailablityStartDate() {
-        return availablityStartDate;
+        return availablityStartDate.format(dtFormatter);
     }
 
     public void setAvailablityStartDate(String availablityStartDate) {
-        this.availablityStartDate = availablityStartDate;
+        this.availablityStartDate = LocalDate.parse(availablityStartDate, dtFormatter);
     }
 
     public String getAvailabiltyEndDate() {
-        return availabiltyEndDate;
+        return availabiltyEndDate.format(dtFormatter);
     }
 
     public void setAvailabiltyEndDate(String availabiltyEndDate) {
-        this.availabiltyEndDate = availabiltyEndDate;
+        this.availabiltyEndDate = LocalDate.parse(availabiltyEndDate, dtFormatter);
     }
 
     public HotelRoom(int noRooms, int guestsPerRoom,float price, float discount, String description, String policies,
@@ -77,8 +83,8 @@ public class HotelRoom {
         this.policies = policies;
         this.type = type;
         this.amenities = amenities;
-        this.availablityStartDate = availablityStartDate;
-        this.availabiltyEndDate = availabiltyEndDate;
+        this.availablityStartDate = LocalDate.parse(availablityStartDate, dtFormatter);
+        this.availabiltyEndDate = LocalDate.parse(availabiltyEndDate, dtFormatter);
         this.guestsPerRoom = guestsPerRoom;
     }
 
@@ -208,8 +214,8 @@ public class HotelRoom {
         sb.append("\"guestsAllowedPerRoom\": ").append(guestsPerRoom).append(", ");
         sb.append("\"description\": ").append(wrapInQuotes(description)).append(", ");
         sb.append("\"policies\": ").append(wrapInQuotes(policies)).append(", ");
-        sb.append("\"availablityStartDate\": ").append(wrapInQuotes(availablityStartDate)).append(", ");
-        sb.append("\"availabiltyEndDate\": ").append(wrapInQuotes(availabiltyEndDate)).append(", ");
+        sb.append("\"availablityStartDate\": ").append(wrapInQuotes(availablityStartDate.format(dtFormatter))).append(", ");
+        sb.append("\"availabiltyEndDate\": ").append(wrapInQuotes(availabiltyEndDate.format(dtFormatter))).append(", ");
 
     
         if (amenities != null && !amenities.isEmpty()) {
