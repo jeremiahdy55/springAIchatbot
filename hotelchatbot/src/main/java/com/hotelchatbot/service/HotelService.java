@@ -62,5 +62,9 @@ public class HotelService {
         String embeddingString = hotel.toEmbeddingString();
         return embeddingService.getEmbedding(embeddingString);
     }
+
+    public List<Hotel> searchHotelsByKeyword(String keyword) {
+        return hotelRepository.searchHotelsByKeyword(keyword);
+    }
     
 }
