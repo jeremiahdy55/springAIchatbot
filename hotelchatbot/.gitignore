@@ -1,4 +1,4 @@
-!**/src/main/resources/secrets.properties
+src\main\resources\secrets.properties
 
 HELP.md
 target/
