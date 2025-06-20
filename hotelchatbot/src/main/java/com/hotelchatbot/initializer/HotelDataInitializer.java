@@ -67,15 +67,15 @@ public class HotelDataInitializer {
                             "hr1: This is a HotelRoom of type: Single with noRooms:5",
                             "Don't break the ice machine.", rt_Single, new HashSet<>(Set.of(a_IM, a_Wifi, a_AC)), 
                             "05/03/25", "07/05/25");
-            HotelRoom hr2 = new HotelRoom(3, 2, 100.99f, 11.99f,
+            HotelRoom hr2 = new HotelRoom(3, 2, 200.99f, 11.99f,
                             "hr2: This is a HotelRoom of type: Double with noRooms:3",
                             "Please enjoy your stay!", rt_Double, new HashSet<>(Set.of(a_IM, a_Wifi, a_AC)),
                             "02/01/25", "03/10/25");
-            HotelRoom hr3 = new HotelRoom(3, 3, 215.99f, 15.99f,
+            HotelRoom hr3 = new HotelRoom(3, 3, 415.99f, 15.99f,
                             "hr3: This is a HotelRoom of type: triple with noRooms:3",
                             "No ice machine, sorry!", rt_Triple, new HashSet<>(Set.of(a_Wifi, a_AC)),
                             "05/01/25", "06/10/25");
-            HotelRoom hr4 = new HotelRoom(4, 6, 112.99f, 20.99f,
+            HotelRoom hr4 = new HotelRoom(4, 6, 512.99f, 20.99f,
                             "hr4: This is a HotelRoom of type: Deluxe with noRooms:4",
                             "No parties allowed.", rt_Deluxe, new HashSet<>(Set.of(a_Wifi)), 
                             "06/10/25", "07/20/25");
@@ -97,9 +97,9 @@ public class HotelDataInitializer {
                             "Complimentary breakfast included. Quiet hours after 10 PM.", rt_Triple,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_IM, a_Microwave)),
                             "08/05/25", "09/01/25");
-            HotelRoom hr9 = new HotelRoom(1, 1, 99.99f, 0.00f,
-                            "hr9: This is a HotelRoom of type: Single with noRooms:1",
-                            "No smoking allowed. Enjoy a peaceful stay!", rt_Single,
+            HotelRoom hr9 = new HotelRoom(1, 1, 299.99f, 0.00f,
+                            "hr9: This is a HotelRoom of type: Triple with noRooms:1",
+                            "No smoking allowed. Enjoy a peaceful stay!", rt_Triple,
                             new HashSet<>(Set.of(a_AC, a_Microwave)),
                             "11/30/25", "12/20/25");
             HotelRoom hr10 = new HotelRoom(5, 2, 145.00f, 10.00f,
@@ -107,9 +107,9 @@ public class HotelDataInitializer {
                             "Please reuse towels to conserve water. Thank you!", rt_Double,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_Coffee)),
                             "08/15/25", "09/10/25");
-            HotelRoom hr11 = new HotelRoom(7, 1, 89.99f, 7.50f,
-                            "hr11: This is a HotelRoom of type: Single with noRooms:7",
-                            "Early checkout before 10 AM. No room service.", rt_Single,
+            HotelRoom hr11 = new HotelRoom(7, 5, 450.99f, 7.50f,
+                            "hr11: This is a HotelRoom of type: Deluxe with noRooms:7",
+                            "Early checkout before 10 AM. No room service.", rt_Deluxe,
                             new HashSet<>(Set.of(a_IM, a_AC, a_Fridge)), 
                             "11/15/25", "12/05/25");
             HotelRoom hr12 = new HotelRoom(3, 3, 159.99f, 0.00f,
@@ -117,17 +117,17 @@ public class HotelDataInitializer {
                             "Guests are responsible for any damage. No party policy enforced.", rt_Triple,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_IM, a_Microwave, a_Coffee)),
                             "05/05/25", "05/30/25");
-            HotelRoom hr13 = new HotelRoom(4, 2, 175.49f, 12.00f,
+            HotelRoom hr13 = new HotelRoom(4, 2, 275.49f, 12.00f,
                             "hr13: This is a HotelRoom of type: Twin with noRooms:4",
                             "Late checkout available upon request. Pets allowed.", rt_Deluxe,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_Coffee)), 
                             "06/01/25", "06/20/25");
-            HotelRoom hr14 = new HotelRoom(10, 2, 110.00f, 15.00f,
+            HotelRoom hr14 = new HotelRoom(10, 2, 225.99f, 15.00f,
                             "hr14: This is a HotelRoom of type: Double with noRooms:10",
                             "Perfect for business travelers. Free high-speed Wifi.", rt_Double,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_IM)),
                             "06/05/25", "07/04/25");
-            HotelRoom hr15 = new HotelRoom(6, 3, 175.00f, 18.00f,
+            HotelRoom hr15 = new HotelRoom(6, 3, 345.99f, 18.00f,
                             "hr15: This is a HotelRoom of type: Triple with noRooms:6",
                             "Free minibar included. Please report any appliance issues to front desk.",
                             rt_Triple, new HashSet<>(Set.of(a_Wifi, a_AC, a_IM)), 
@@ -137,12 +137,12 @@ public class HotelDataInitializer {
                             "Quiet corner rooms. Ideal for solo travelers. No extra guests allowed.",
                             rt_Single, new HashSet<>(Set.of(a_AC, a_Microwave, a_Fridge)), 
                             "07/01/25", "07/18/25");
-            HotelRoom hr17 = new HotelRoom(8, 6, 120.00f, 10.00f,
+            HotelRoom hr17 = new HotelRoom(8, 6, 520.00f, 10.00f,
                             "hr14: This is a HotelRoom of type: Deluxe with noRooms:8",
                             "Housekeeping available upon request. No loud music after 9 PM.", rt_Deluxe,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_Kitchen, a_Fridge, a_Microwave)), 
                             "10/10/25", "11/15/25");
-            HotelRoom hr18 = new HotelRoom(2, 2, 199.00f, 25.00f,
+            HotelRoom hr18 = new HotelRoom(2, 2, 399.00f, 25.00f,
                             "hr17: This is a HotelRoom of type: Double with noRooms:2",
                             "Ocean view room. Extra blankets and pillows available upon request.",
                             rt_Double, new HashSet<>(Set.of(a_Wifi, a_AC, a_IM)), 

@@ -35,6 +35,9 @@ public class AmenitiesService {
     public Amenities findByName(String name) {
 		return amenitiesRepository.findByName(name);
 	}
+    public List<Amenities> findByNameIn(List<String> names) {
+        return amenitiesRepository.findByNameIn(names);
+    }
     public void deleteById(int id) {
 		amenitiesRepository.deleteById(id);		
 	}

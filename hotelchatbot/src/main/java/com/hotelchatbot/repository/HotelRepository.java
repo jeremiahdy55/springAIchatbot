@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.hotelchatbot.domain.Hotel;
 import com.hotelchatbot.domain.Amenities;
+import com.hotelchatbot.domain.Hotel;
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
@@ -31,17 +31,21 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     FROM Hotel h
     JOIN h.hotelRooms hr
     GROUP BY h
-    HAVING SUM(hr.noRooms) >= :guestCount
+    HAVING SUM(hr.guestsPerRoom * hr.noRooms) >= :guestCount
     """)
     List<Hotel> findHotelsByMinimumGuestAvailability(@Param("guestCount") int guestCount);
 
     @Query("""
-    SELECT DISTINCT h
-    FROM Hotel h
-    JOIN h.hotelRooms hr
-    WHERE :targetDate BETWEEN hr.availabilityStartDate AND hr.availabilityEndDate
-    """)
-    List<Hotel> findHotelsWithRoomsAvailableOn(@Param("targetDate") LocalDate targetDate);
+        SELECT DISTINCT h
+        FROM Hotel h
+        JOIN h.hotelRooms hr
+        WHERE hr.availabilityStartDate <= :checkIn
+          AND hr.availabilityEndDate >= :checkOut
+        """)
+    List<Hotel> findHotelsWithRoomsAvailableBetween(
+        @Param("checkIn") LocalDate checkIn,
+        @Param("checkOut") LocalDate checkOut
+    );
 
     @Query("SELECT h FROM Hotel h JOIN h.amenities a WHERE a IN :amenities")
     List<Hotel> findByAnyAmenities(@Param("amenities") Collection<Amenities> amenities);

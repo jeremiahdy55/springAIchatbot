@@ -31,8 +31,8 @@ public class HotelRoom {
     private float discount;
     private String description;
     private String policies;
-    private LocalDate availablityStartDate;
-    private LocalDate availabiltyEndDate;
+    private LocalDate availabilityStartDate;
+    private LocalDate availabilityEndDate;
 
     @ManyToOne
     private RoomType type;
@@ -58,24 +58,24 @@ public class HotelRoom {
         this.guestsPerRoom = guestsPerRoom;
     }
 
-    public String getAvailablityStartDate() {
-        return availablityStartDate.format(dtFormatter);
+    public String getAvailabilityStartDate() {
+        return availabilityStartDate.format(dtFormatter);
     }
 
-    public void setAvailablityStartDate(String availablityStartDate) {
-        this.availablityStartDate = LocalDate.parse(availablityStartDate, dtFormatter);
+    public void setAvailabilityStartDate(String availabilityStartDate) {
+        this.availabilityStartDate = LocalDate.parse(availabilityStartDate, dtFormatter);
     }
 
-    public String getAvailabiltyEndDate() {
-        return availabiltyEndDate.format(dtFormatter);
+    public String getAvailabilityEndDate() {
+        return availabilityEndDate.format(dtFormatter);
     }
 
-    public void setAvailabiltyEndDate(String availabiltyEndDate) {
-        this.availabiltyEndDate = LocalDate.parse(availabiltyEndDate, dtFormatter);
+    public void setAvailabilityEndDate(String availabilityEndDate) {
+        this.availabilityEndDate = LocalDate.parse(availabilityEndDate, dtFormatter);
     }
 
     public HotelRoom(int noRooms, int guestsPerRoom,float price, float discount, String description, String policies,
-            RoomType type, Set<Amenities> amenities, String availablityStartDate, String availabiltyEndDate) {
+            RoomType type, Set<Amenities> amenities, String availabilityStartDate, String availabilityEndDate) {
         this.noRooms = noRooms;
         this.price = price;
         this.discount = discount;
@@ -83,8 +83,8 @@ public class HotelRoom {
         this.policies = policies;
         this.type = type;
         this.amenities = amenities;
-        this.availablityStartDate = LocalDate.parse(availablityStartDate, dtFormatter);
-        this.availabiltyEndDate = LocalDate.parse(availabiltyEndDate, dtFormatter);
+        this.availabilityStartDate = LocalDate.parse(availabilityStartDate, dtFormatter);
+        this.availabilityEndDate = LocalDate.parse(availabilityEndDate, dtFormatter);
         this.guestsPerRoom = guestsPerRoom;
     }
 
@@ -186,7 +186,7 @@ public class HotelRoom {
         sb.append("Guests Allowed per Room: ").append(guestsPerRoom).append(". ");
         sb.append("Description: ").append(description).append(". ");
         sb.append("Policies: ").append(policies).append(". ");
-        sb.append("Available from ").append(availablityStartDate).append(" to ").append(availabiltyEndDate).append(". ");
+        sb.append("Available from ").append(availabilityStartDate).append(" to ").append(availabilityEndDate).append(". ");
     
         if (amenities != null && !amenities.isEmpty()) {
             sb.append("Amenities: ");
@@ -214,8 +214,8 @@ public class HotelRoom {
         sb.append("\"guestsAllowedPerRoom\": ").append(guestsPerRoom).append(", ");
         sb.append("\"description\": ").append(wrapInQuotes(description)).append(", ");
         sb.append("\"policies\": ").append(wrapInQuotes(policies)).append(", ");
-        sb.append("\"availablityStartDate\": ").append(wrapInQuotes(availablityStartDate.format(dtFormatter))).append(", ");
-        sb.append("\"availabiltyEndDate\": ").append(wrapInQuotes(availabiltyEndDate.format(dtFormatter))).append(", ");
+        sb.append("\"availabilityStartDate\": ").append(wrapInQuotes(availabilityStartDate.format(dtFormatter))).append(", ");
+        sb.append("\"availabilityEndDate\": ").append(wrapInQuotes(availabilityEndDate.format(dtFormatter))).append(", ");
 
     
         if (amenities != null && !amenities.isEmpty()) {

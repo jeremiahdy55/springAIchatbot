@@ -268,8 +268,8 @@ public class Hotel {
 				roomSB.append("{");
 				roomSB.append("\"hotelRoomId\": ").append(room.getHotelRoomId()).append(", ");
 				roomSB.append("\"type\": ").append(wrapInQuotes(room.getType().getName())).append(", ");
-				roomSB.append("\"availabilityStartDate\": ").append(wrapInQuotes(room.getAvailablityStartDate())).append(", ");
-				roomSB.append("\"availabilityEndDate\": ").append(wrapInQuotes(room.getAvailabiltyEndDate())).append(", ");
+				roomSB.append("\"availabilityStartDate\": ").append(wrapInQuotes(room.getAvailabilityStartDate())).append(", ");
+				roomSB.append("\"availabilityEndDate\": ").append(wrapInQuotes(room.getAvailabilityEndDate())).append(", ");
 				Set<Amenities> roomAmenities = room.getAmenities();
 				roomAmenities.removeAll(this.amenities);
 				roomSB.append("\"amenities\": [").append(roomAmenities.stream().map(Amenities::getName).map(amenity -> wrapInQuotes(amenity)).collect(Collectors.joining(", "))).append("]}, ");

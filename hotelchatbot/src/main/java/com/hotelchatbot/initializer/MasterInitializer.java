@@ -42,5 +42,6 @@ public class MasterInitializer implements CommandLineRunner {
         amenitiesDataInitializer.init();
         roomTypeDataInitializer.init();
         hotelDataInitializer.init();
+        System.out.println("\n\nDone with initialization!\n\n\n");
     }
 }

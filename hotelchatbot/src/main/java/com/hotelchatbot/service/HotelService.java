@@ -1,12 +1,17 @@
 package com.hotelchatbot.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import com.hotelchatbot.domain.Amenities;
 import com.hotelchatbot.domain.Hotel;
 import com.hotelchatbot.domain.HotelRoom;
 import com.hotelchatbot.embeddings.EmbeddingService;
@@ -65,6 +70,26 @@ public class HotelService {
 
     public List<Hotel> searchHotelsByKeyword(String keyword) {
         return hotelRepository.searchHotelsByKeyword(keyword);
+    }
+
+    public List<Hotel> searchHotelsByMinimumGuestAvailability(int guestCount) {
+        return hotelRepository.findHotelsByMinimumGuestAvailability(guestCount);
+    }
+
+    public List<Hotel> searchHotelsWithRoomsAvailableBetween(LocalDate checkIn, LocalDate checkOut) {
+        return hotelRepository.findHotelsWithRoomsAvailableBetween(checkIn, checkOut);
+    }
+
+    public List<Hotel> searchHotelsByAnyAmenities(Collection<Amenities> amenities) {
+        return hotelRepository.findByAnyAmenities(amenities);
+    }
+
+    public List<Hotel> searchHotelsByStarRating(Collection<Integer> starRatings) {
+        return hotelRepository.findByStarRatingIn(starRatings);
+    }
+
+    public List<Hotel> searchHotelsByAveragePriceLessThanBudget(Double budget) {
+        return hotelRepository.findByAveragePriceLessThan(budget);
     }
     
 }
