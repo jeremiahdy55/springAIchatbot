@@ -229,7 +229,7 @@ public class HotelRoom {
     
         if (hotel != null) {
             sb.append("\"hotelId\": ").append(hotel.getHotelId()).append(", ");
-            sb.append("\"hotelId\": ").append(wrapInQuotes(hotel.getHotelName())).append(", ");
+            sb.append("\"hotelName\": ").append(wrapInQuotes(hotel.getHotelName())).append(", ");
             sb.append("\"hotelAddress\": \"").append(hotel.getAddress()).append(", ").append(hotel.getCity()).append(", ").append(hotel.getState()).append("\"}");
         }
         return sb.toString();

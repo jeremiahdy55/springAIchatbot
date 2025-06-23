@@ -37,8 +37,9 @@ public class ChatService {
 
     private final ChatModel chatModel;
     private final ChatMemory chatMemory;
-    private final String initChatbotMessage = "You are a helpful assistant that answers hotel search queries "
-        + "using provided hotel data. If the data is unclear or indirect, respond with appropriate confidence.";
+    private final String initChatbotMessage = "You are a helpful assistant that answers hotel search queries using provided data."
+        + " If multiple hotel entities match the user's description, ask follow-up questions to narrow down the result."
+        + "If the data is unclear or indirect, respond with appropriate confidence.";
     
     public ChatService(ChatModel chatModel) {
         this.chatModel = chatModel;
