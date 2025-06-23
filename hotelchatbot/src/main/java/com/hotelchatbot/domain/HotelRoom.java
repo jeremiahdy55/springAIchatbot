@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -37,6 +39,9 @@ public class HotelRoom {
     @ManyToOne
     private RoomType type;
 
+    @OneToMany(mappedBy = "hotelRoom", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Booking> bookings;
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Amenities> amenities;
 
@@ -47,8 +52,7 @@ public class HotelRoom {
     @Transient
     DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("MM/dd/yy");
 
-    public HotelRoom() {
-    }
+    public HotelRoom() {}
 
     public int getGuestsPerRoom() {
         return guestsPerRoom;
@@ -161,6 +165,14 @@ public class HotelRoom {
 
     public void setPolicies(String policies) {
         this.policies = policies;
+    }
+
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     public Hotel getHotel() {

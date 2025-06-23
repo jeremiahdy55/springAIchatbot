@@ -52,6 +52,5 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 
     List<Hotel> findByStarRatingIn(Collection<Integer> starRatings);
     List<Hotel> findByAveragePriceLessThan(Double price);
-    
 
 }
