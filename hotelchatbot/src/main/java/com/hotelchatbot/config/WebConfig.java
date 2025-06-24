@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:9000")  // Frontend React
+                        .allowedOrigins("http://localhost:8787")  // Security "Gateway" microservice (a.k.a jwtsecurity)
                         .allowedMethods("GET", "POST", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }
