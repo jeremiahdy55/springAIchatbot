@@ -1,2 +1,7 @@
 # Ignore secrets/sensitive data
 hotelchatbot/src/main/resources/secrets.properties
+jwt-ms/src/main/resources/secrets.properties
+jwtsecurity/src/main/resources/secrets.properties
+keypair-generation/keys/*
+
+#(echo -e "\n"; cat private-key.txt) >> application.properties

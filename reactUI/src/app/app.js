@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Login from "./UnauthorizedComponents/Login";
-import RegisterUser from "./UnauthorizedComponents/RegisterUser";
+import Login from "./UnauthorizedAccess/Login";
+import RegisterUser from "./UnauthorizedAccess/RegisterUser";
 
 let App = (props) => {
     return (

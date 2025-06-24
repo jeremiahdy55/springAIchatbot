@@ -157,7 +157,6 @@ public class HotelDataInitializer {
             Set<HotelRoom> h6_Rooms = new HashSet<>(Set.of(hr15, hr16));
             Set<HotelRoom> h7_Rooms = new HashSet<>(Set.of(hr17, hr18));
 
-
             // Define Amenities Set(s) for Hotel(s)
             Set<Amenities> h1_Amenities = new HashSet<>(Set.of(a_Gym, a_AirportS, a_BB, a_Parking));
             Set<Amenities> h2_Amenities = new HashSet<>(Set.of(a_Gym, a_Pool, a_Parking));
@@ -175,8 +174,6 @@ public class HotelDataInitializer {
             String h5Image = "https://tse3.mm.bing.net/th?id=OIP.T6dtY18pTEYdjJ0Mt-scIwHaE4&r=0&pid=Api";
             String h6Image = "https://cache.marriott.com/marriottassets/marriott/HNLMC/hnlmc-exterior-4350-hor-feat.jpg";
             String h7Image = "https://tse2.mm.bing.net/th?id=OIP.vF7fqw4_BbkELIeJ3dKyewHaE8&r=0&pid=Api";
-
-
 
             // Define Hotel(s) to save
             Hotel h1 = new Hotel("Amazing Hotel", "1234 Atlas Dr.", "New York City", "New York",
@@ -231,7 +228,6 @@ public class HotelDataInitializer {
                 System.out.println("Something went wrong while saving Hotel objects!");
             }
         }
-
     }
 
     // Helper functions //
