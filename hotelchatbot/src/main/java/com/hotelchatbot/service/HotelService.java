@@ -103,6 +103,10 @@ public class HotelService {
         return hotelRepository.findByAveragePriceLessThan(budget);
     }
 
+    public List<Hotel> searchHotelsByTotalNoRooms (Integer noRooms) {
+        return hotelRepository.findHotelsByTotalNoRooms(noRooms);
+    }
+
     public List<Hotel> filterHotelsByDto(HotelFilterDto filter) {
         // Intialize the list of lists that will hold the filter results
         List<List<Hotel>> lists = new ArrayList<>();
@@ -119,6 +123,10 @@ public class HotelService {
 
         if (filter.getMinGuestAvailability() != null) {
             lists.add(searchHotelsByMinimumGuestAvailability(filter.getMinGuestAvailability()));
+        }
+
+        if (filter.getNoRooms() != null) {
+            lists.add(searchHotelsByTotalNoRooms(filter.getNoRooms()));
         }
 
         if (filter.getCheckIn() != null && filter.getCheckOut() != null
