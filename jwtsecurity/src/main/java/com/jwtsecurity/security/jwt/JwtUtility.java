@@ -7,7 +7,9 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 import java.util.Date;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,9 @@ import jakarta.annotation.PostConstruct;
 
 @Component
 public class JwtUtility {
+
+    @Autowired
+    RevokedTokenService revokedTokenService;
 
     @Value("${jwt.publickey}")
     private String publicKeyString;
@@ -52,6 +57,7 @@ public class JwtUtility {
                 .subject(auth.getName())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .id(UUID.randomUUID().toString()) // set a random ID so new tokens are generated each session
                 .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
     }
@@ -67,14 +73,26 @@ public class JwtUtility {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
-                .verifyWith(publicKey)
-                .build()
-                .parseSignedClaims(token);
-            return true;
+            var claims = Jwts.parser()
+                    .verifyWith(publicKey)
+                    .build()
+                    .parseSignedClaims(token);
+            String jti = claims.getPayload().getId();
+
+            // Return if the token is valid or not (is it revoked?)
+            return !revokedTokenService.isRevoked(jti);
         } catch (JwtException | IllegalArgumentException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public String getTokenId(String token) {
+        return Jwts.parser()
+                   .verifyWith(publicKey)
+                   .build()
+                   .parseSignedClaims(token)
+                   .getPayload()
+                   .getId(); // assumes you set a JWT ID in generateToken
     }
 }
