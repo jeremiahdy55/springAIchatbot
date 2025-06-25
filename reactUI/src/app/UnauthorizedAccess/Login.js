@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login({ username, password });
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       console.error("Login failed:", err);
       alert("Login failed: Invalid username or password");

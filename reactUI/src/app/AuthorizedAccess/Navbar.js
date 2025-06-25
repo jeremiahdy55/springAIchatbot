@@ -13,7 +13,7 @@ const Navbar = () => {
         <nav className="navbar navbar-expand-lg bg-secondary bg-opacity-75 shadow-sm px-4">
             <div className="container-fluid">
                 <div className="d-flex gap-4">
-                    <Link to="/home" className="nav-link text-dark">Home</Link>
+                    <Link to="/" className="nav-link text-dark">Home</Link>
                     <Link to="/chats" className="nav-link text-dark">Chats</Link>
                 </div>
                 <button onClick={handleLogout} className="btn btn-danger ms-auto">

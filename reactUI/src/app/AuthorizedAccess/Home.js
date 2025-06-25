@@ -1,19 +1,42 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import SearchBar from "./HomePageComponents.js/SearchBar";
+import FilterSection from "./HomePageComponents.js/FilterSidebar";
+import HotelDisplay from "./HomePageComponents.js/HotelDisplay";
 
 const Home = () => {
-    return (
-        <>
-        <Navbar/>
-        <div className="container d-flex justify-content-center">
-            <div className="card p-4 shadow w-50">
-                <h2 className="text-center">Delete me later</h2>
-                <p>Hello World!</p>
-            </div>
-        </div>
-        </>
-    );
+  const [hotels, setHotels] = useState([]); // You would fill this from your API
+  const [combinedParams, setCombinedParams] = useState({});
+
+  // When Search calls back, merge search params into combinedParams
+  const handleSearch = (searchParams) => {
+    setCombinedParams((prev) => {
+      const updated = { ...prev, ...searchParams };
+      console.log("Combined Params on Search:", updated);
+      return updated;
+    });
+  };
+
+  // When Filter calls back, merge filter params into combinedParams
+  const handleFilter = (filterParams) => {
+    setCombinedParams((prev) => {
+      const updated = { ...prev, ...filterParams };
+      console.log("Combined Params on Filter:", updated);
+      return updated;
+    });
+  };
+
+  return (
+    <>
+      <Navbar />
+      <SearchBar onSearch={handleSearch} />
+      <div className="row">
+        <FilterSection onFilter={handleFilter} />
+        <HotelDisplay hotels={hotels} />
+      </div>
+    </>
+  );
 };
 
 export default Home;

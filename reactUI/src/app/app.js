@@ -12,7 +12,7 @@ let App = (props) => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterUser />} />
         <Route
-          path="/home"
+          path="/"
           element={
             <PrivateRoute>
               <Home />
