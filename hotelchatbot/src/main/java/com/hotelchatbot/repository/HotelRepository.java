@@ -16,41 +16,48 @@ import com.hotelchatbot.domain.Hotel;
 public interface HotelRepository extends JpaRepository<Hotel, Integer> {
 
     @Query("""
-    SELECT DISTINCT h FROM Hotel h
-    LEFT JOIN FETCH h.amenities
-    LEFT JOIN FETCH h.hotelRooms
-    WHERE LOWER(h.hotelName) LIKE LOWER(CONCAT('%', :keyword, '%'))
-       OR LOWER(h.city) LIKE LOWER(CONCAT('%', :keyword, '%'))
-       OR LOWER(h.state) LIKE LOWER(CONCAT('%', :keyword, '%'))
-       OR LOWER(h.address) LIKE LOWER(CONCAT('%', :keyword, '%'))
-    """)
+            SELECT DISTINCT h FROM Hotel h
+            LEFT JOIN FETCH h.amenities
+            LEFT JOIN FETCH h.hotelRooms
+            WHERE LOWER(h.hotelName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(h.city) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(h.state) LIKE LOWER(CONCAT('%', :keyword, '%'))
+               OR LOWER(h.address) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            """)
     List<Hotel> searchHotelsByKeyword(@Param("keyword") String keyword);
 
     @Query("""
-    SELECT h
-    FROM Hotel h
-    JOIN h.hotelRooms hr
-    GROUP BY h
-    HAVING SUM(hr.guestsPerRoom * hr.noRooms) >= :guestCount
-    """)
+            SELECT h
+            FROM Hotel h
+            JOIN h.hotelRooms hr
+            GROUP BY h
+            HAVING SUM(hr.guestsPerRoom * hr.noRooms) >= :guestCount
+            """)
     List<Hotel> findHotelsByMinimumGuestAvailability(@Param("guestCount") int guestCount);
 
     @Query("""
-        SELECT DISTINCT h
-        FROM Hotel h
-        JOIN h.hotelRooms hr
-        WHERE hr.availabilityStartDate <= :checkIn
-          AND hr.availabilityEndDate >= :checkOut
-        """)
+            SELECT DISTINCT h
+            FROM Hotel h
+            JOIN h.hotelRooms hr
+            WHERE hr.availabilityStartDate <= :checkIn
+              AND hr.availabilityEndDate >= :checkOut
+            """)
     List<Hotel> findHotelsWithRoomsAvailableBetween(
-        @Param("checkIn") LocalDate checkIn,
-        @Param("checkOut") LocalDate checkOut
-    );
+            @Param("checkIn") LocalDate checkIn,
+            @Param("checkOut") LocalDate checkOut);
 
-    @Query("SELECT h FROM Hotel h JOIN h.amenities a WHERE a IN :amenities")
+    @Query("""
+            SELECT DISTINCT h
+            FROM Hotel h
+            LEFT JOIN h.amenities ha
+            LEFT JOIN h.hotelRooms hr
+            LEFT JOIN hr.amenities hra
+            WHERE ha IN :amenities OR hra IN :amenities
+            """)
     List<Hotel> findByAnyAmenities(@Param("amenities") Collection<Amenities> amenities);
 
     List<Hotel> findByStarRatingIn(Collection<Integer> starRatings);
+
     List<Hotel> findByAveragePriceLessThan(Double price);
 
 }

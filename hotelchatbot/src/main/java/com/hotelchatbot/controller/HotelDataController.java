@@ -9,12 +9,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotelchatbot.domain.Amenities;
 import com.hotelchatbot.domain.Hotel;
+import com.hotelchatbot.domain.HotelFilterDto;
 import com.hotelchatbot.service.AmenitiesService;
 import com.hotelchatbot.service.HotelService;
 
@@ -89,4 +92,14 @@ public class HotelDataController {
             .collect(Collectors.toList());
         return ResponseEntity.ok().body(hotelJsonStrings);
     }
+
+    @PostMapping("/hotel/filterHotels")
+    public ResponseEntity<List<String>> filterHotels(@RequestBody HotelFilterDto filter) {
+        List<String> hotelJsonStrings = hotelService.filterHotelsByDto(filter)
+            .stream()
+            .map(Hotel::toJsonObjectString)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().body(hotelJsonStrings);
+    }
+
 }
