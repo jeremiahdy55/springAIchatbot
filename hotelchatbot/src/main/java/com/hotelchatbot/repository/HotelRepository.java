@@ -36,6 +36,15 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
     List<Hotel> findHotelsByMinimumGuestAvailability(@Param("guestCount") int guestCount);
 
     @Query("""
+            SELECT h
+            FROM Hotel h
+            JOIN h.hotelRooms hr
+            GROUP BY h
+            HAVING SUM(hr.noRooms) >= :noRooms
+            """)
+    List<Hotel> findHotelsByTotalNoRooms(@Param("noRooms") int noRooms);
+
+    @Query("""
             SELECT DISTINCT h
             FROM Hotel h
             JOIN h.hotelRooms hr

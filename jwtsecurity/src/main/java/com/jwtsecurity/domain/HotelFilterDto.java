@@ -1,6 +1,5 @@
-package com.hotelchatbot.domain;
+package com.jwtsecurity.domain;
 
-import java.util.List;
 import java.util.List;
 
 public class HotelFilterDto {

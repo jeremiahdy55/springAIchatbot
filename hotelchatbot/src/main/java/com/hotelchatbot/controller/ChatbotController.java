@@ -20,7 +20,7 @@ public class ChatbotController {
 
     @PostMapping("/chat/{conversationId}")
     public ResponseEntity<String> postMethodName(@PathVariable String conversationId, @RequestBody String userQuery) {
-        System.out.println(userQuery + "\n");
+        System.out.println(userQuery);
         String response = chatService.generateResponse(conversationId, userQuery);
         return ResponseEntity.ok().body(response);
     }
