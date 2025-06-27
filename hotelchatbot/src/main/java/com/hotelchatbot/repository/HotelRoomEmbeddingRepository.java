@@ -14,7 +14,7 @@ public interface HotelRoomEmbeddingRepository extends JpaRepository<HotelRoomEmb
 
      @Query(value = """
     SELECT hotel_room_id FROM hotel_room_embeddings
-    ORDER BY embedding <#> cast(:embedding as vector)
+    ORDER BY embedding <=> cast(:embedding as vector)
     LIMIT 5
     """, nativeQuery = true)
     List<Integer> findTop5BySimilarity(@Param("embedding") String embedding);
