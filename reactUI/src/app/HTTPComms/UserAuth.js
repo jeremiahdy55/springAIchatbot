@@ -1,3 +1,9 @@
+/*
+Define the hooks that will call jwtsecurity MS and/or jwtsecurity MS -> hotelchatbot MS
+ - to login the user and be issued a JWT token
+ - to validate that the user's JWT token is authorized
+ - to register new users and persist their information in DB
+*/
 export const isAuthenticated = async () => {
   const token = sessionStorage.getItem("token");
   if (!token) return false;

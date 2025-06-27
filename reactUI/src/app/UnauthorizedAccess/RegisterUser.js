@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { register } from "../HTTPComms/UserAuth";
 import { useNavigate } from "react-router-dom";
 
+// Simple register user page
+// NOTE: THIS DOES NOT LOGIN THE USER, JUST CREATES THEM IN DB
 const RegisterUser = () => {
   // Define necessary hooks
   const navigate = useNavigate();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../HTTPComms/UserAuth";
 
+// Simple login page
 const Login = () => {
   // Declare necessary hooks
   const navigate = useNavigate();

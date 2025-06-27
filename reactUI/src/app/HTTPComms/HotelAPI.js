@@ -1,3 +1,10 @@
+/*
+Define the hooks that will call jwtsecurity MS -> hotelchabot MS
+ - to retrieve Hotel and HotelRoom data
+ - to generate AI chatbot responses
+ - to create a booking and store that in DB
+*/
+
 export const filterHotels = async (filterDto) => {
   const token = sessionStorage.getItem("token");
   try {
