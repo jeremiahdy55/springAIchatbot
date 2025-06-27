@@ -12,7 +12,7 @@ import java.util.Base64;
 public class KeyGeneratorUtil {
 
     public static void main(String[] args) throws Exception {
-        // Generate RSA Key Pair
+        // Generate RSA public-private Key Pair
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         keyGen.initialize(2048); // Key size
         KeyPair keyPair = keyGen.generateKeyPair();
@@ -26,7 +26,6 @@ public class KeyGeneratorUtil {
             keysDir.mkdirs();
         }
 
-        // Let's say you have these keys:
         byte[] privateKeyBytes = privateKey.getEncoded();
         byte[] publicKeyBytes = publicKey.getEncoded();
 
