@@ -72,7 +72,7 @@ const Booking = () => {
               <strong>Total Available Guest Capacity:</strong> {hotel.guestCapacityRemaining}
             </p>
             <p>
-              <strong>Price:</strong> ${hotel.avgPrice?.toFixed(2)} | <strong>Discount:</strong> ${hotel.discount}
+              <strong>Average Price:</strong> ${hotel.avgPrice?.toFixed(2)} | <strong>Discount:</strong> ${hotel.discount}
             </p>
             <p>
               <strong>Address:</strong> {hotel.address}
