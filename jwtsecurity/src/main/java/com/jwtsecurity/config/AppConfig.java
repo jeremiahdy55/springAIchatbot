@@ -13,7 +13,6 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-// @EnableTransactionManagement
 public class AppConfig {
 
     @Value("${spring.datasource.url}")

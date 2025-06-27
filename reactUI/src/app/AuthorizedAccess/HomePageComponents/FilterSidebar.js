@@ -32,7 +32,8 @@ function FilterSection({ onFilter }) {
   };
 
   const handleFilterClick = () => {
-    const amenityList = Object.keys(amenities).filter((key) => amenities[key]);
+    const checkedAmenities = Object.keys(amenities).filter((key) => amenities[key]);
+    const amenityList = checkedAmenities.map((amenity) => amenityLabels[amenity]);
     onFilter({
       starRatings: starRatings,
       budget: priceRange,

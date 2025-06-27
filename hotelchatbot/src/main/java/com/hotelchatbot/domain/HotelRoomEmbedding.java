@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-// A separate entity to store embeddings because Hibernate cannot map the pgvector datatype well
+// A separate entity to store embeddings because Hibernate cannot map the pgvector datatype without external configuration
 @Entity
 @Table(name = "hotel_room_embeddings")
 public class HotelRoomEmbedding {

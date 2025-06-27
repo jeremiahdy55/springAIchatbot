@@ -21,11 +21,27 @@ public class Booking {
     private String guestFirstName;
     private String guestLastName;
     private String guestEmail;
+    private String billingAddress;
+    private String cardNo;
 
     @ManyToOne
     @JoinColumn(name = "hotel_room_id")
     private HotelRoom hotelRoom;
-    
+
+    public Booking() {}
+
+    public Booking(LocalDate checkInDate, LocalDate checkOutDate, String guestFirstName, String guestLastName,
+            String guestEmail, String billingAddress, String cardNo, HotelRoom hotelRoom) {
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.guestEmail = guestEmail;
+        this.guestFirstName = guestFirstName;
+        this.guestLastName = guestLastName;
+        this.hotelRoom = hotelRoom;
+        this.billingAddress = billingAddress;
+        this.cardNo = cardNo;
+    }
+
     public HotelRoom getHotelRoom() {
         return hotelRoom;
     }
@@ -65,4 +81,20 @@ public class Booking {
     public void setGuestEmail(String guestEmail) {
         this.guestEmail = guestEmail;
     }    
+
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
 }

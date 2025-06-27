@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import HotelObjectRow from "./HotelObjectRow";
 
 function HotelDisplay({ hotels }) {
   return (
@@ -10,15 +11,13 @@ function HotelDisplay({ hotels }) {
           fontFamily: `"Trebuchet MS", Helvetica, sans-serif`,
         }}
       >
-        <h4 className="mt-2">List of Hotels:</h4>
+        <h3 className="mt-2">List of Hotels:</h3>
       </div>
 
       <div id="listHotel">
         {hotels && hotels.length > 0 ? (
           hotels.map((hotel) => (
-            <div key={hotel.id} className="hotel-item">
-              {hotel.name}
-            </div>
+            <HotelObjectRow key={hotel.id || hotel.name} hotel={hotel} />
           ))
         ) : (
           <p>No hotels to display</p>

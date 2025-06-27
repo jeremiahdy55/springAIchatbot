@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/")
 public class TestController {
 
+    /* these endpoints are purely for testing security configurations
+     * and that JWT security was working. They have no bearing on the final version 
+     * of the application.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public ResponseEntity<String> helloAdmin(){

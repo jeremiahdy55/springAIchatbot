@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-// This allows cross-origin requests from port 9000 (reactUI)
+// This allows cross-origin requests from port 8787 (jwtsecurity)
 @Configuration
 public class WebConfig {
     @Bean

@@ -17,7 +17,7 @@ import com.hotelchatbot.service.HotelService;
 import com.hotelchatbot.service.RoomTypeService;
 
 // If the database is not set up yet, populate the Hotel data
-// (and in doing so, the HotelEmbedding, HotelRoom, and HotelRoomEmbeddingData)
+// (and in doing so, the HotelEmbedding, HotelRoom, and HotelRoomEmbedding data)
 @Component
 public class HotelDataInitializer {
 
@@ -138,12 +138,12 @@ public class HotelDataInitializer {
                             rt_Single, new HashSet<>(Set.of(a_AC, a_Microwave, a_Fridge)), 
                             "07/01/25", "07/18/25");
             HotelRoom hr17 = new HotelRoom(8, 6, 520.00f, 10.00f,
-                            "hr14: This is a HotelRoom of type: Deluxe with noRooms:8",
+                            "hr17: This is a HotelRoom of type: Deluxe with noRooms:8",
                             "Housekeeping available upon request. No loud music after 9 PM.", rt_Deluxe,
                             new HashSet<>(Set.of(a_Wifi, a_AC, a_Kitchen, a_Fridge, a_Microwave)), 
                             "10/10/25", "11/15/25");
             HotelRoom hr18 = new HotelRoom(2, 2, 399.00f, 25.00f,
-                            "hr17: This is a HotelRoom of type: Double with noRooms:2",
+                            "hr18: This is a HotelRoom of type: Double with noRooms:2",
                             "Ocean view room. Extra blankets and pillows available upon request.",
                             rt_Double, new HashSet<>(Set.of(a_Wifi, a_AC, a_IM)), 
                             "11/20/25", "12/31/25");

@@ -14,6 +14,7 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    // Send simple email notification using Booking information
     public void sendBookingEmail(
             String recipient, String subject, String hotelName, String firstName, String lastName,
             String email, String roomType, String billingAddress, String cardNo, String checkInDate, String checkOutDate) {
@@ -29,7 +30,7 @@ public class EmailService {
                   <li> Email: %s</li>
                   <li> Room Booked: %s</li>
                   <li> Billing Address: %s</li>
-                  <li> Card No: ------- %s</li>
+                  <li> Card No: %s</li>
                   <li> Booked For: %s - %s</li>
                 </ul>
                 <h4>We hope you enjoy your stay!</h4>

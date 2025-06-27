@@ -40,10 +40,11 @@ public class ChatService {
     private final ChatMemory chatMemory;
     private final String initChatbotMessage = """
                         You are a helpful assistant answering hotel search queries using Hotel or HotelRoom JSON data. \
-                        Hotel includes: name, price, location, contact info, amenities, and description. \
-                        HotelRoom includes: available room count, pricing, policies, amenities, and description. \
+                        Hotel includes: name, price, location, contact info, amenities, description, and guest capacity. \
+                        HotelRoom includes: room-specific type, pricing, policies, amenities, available dates, and number of open rooms for this type.  \
                         Always include the hotel name when referring to either entity. \
-                        If you cannot confidently answer the query with the data, state your confidence clearly. \
+                        Never include hotelId or hotelRoomId in regular responses. \
+                        If you cannot confidently answer the query with the data, use an appropriate amount of confidence in constructing your response. \
                         If no JSON data was provided, do not invent information; instead provide a generic response and prompt the user again.
                         """;
 
@@ -103,58 +104,83 @@ public class ChatService {
             entityToSearch = determineEntityForSemanticSearch(userQuery);
             attemptNo++;
         }
-        // System.out.println("This is the entity to search " + entityToSearch);
-        // System.out.println(new Prompt(chatMemory.get(conversationId)));
 
-        if (entityToSearch.equals("Generic")) {
-            System.out.println("userQuery classified as type: Generic!");
-            chatMemory.add(conversationId, new UserMessage(userQuery));
-            ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
-            returnText = response.getResult().getOutput().getText();
-        } else if (entityToSearch.equals("Booking")) {
-            System.out.println("userQuery classified as type: Booking!");
-            // Implement booking response later, need to do frontend first
-            // chatMemory.add(conversationId, new UserMessage(userQuery));
-            // ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
-            // returnText = response.getResult().getOutput().getText();
-        } else {
-
-            try {
-                float[] userQueryEmbedding = embeddingService.getEmbedding(userQuery);
-                switch (entityToSearch) {
-                    case "Hotel" -> {
-                        System.out.println("userQuery classified as type: Hotel!");
+        // Parse the information and generate a text response
+        try {
+            float[] userQueryEmbedding = embeddingService.getEmbedding(userQuery);
+            switch (entityToSearch) {
+                case "Generic" -> {
+                    System.out.println("userQuery classified as type: " + entityToSearch);
+                    chatMemory.add(conversationId, new UserMessage(userQuery));
+                    ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
+                    returnText = response.getResult().getOutput().getText();
+                }
+        
+                case "Hotel" -> {
+                    System.out.println("userQuery classified as type: Hotel!");
+                    List<Hotel> hotels = hotelEmbeddingService.findTop3BySimilarity(userQueryEmbedding);
+                    String hotelData = hotels.stream().map(Hotel::toJsonObjectString)
+                            .collect(Collectors.joining("\n"));
+                    SystemMessage hotelContextMessage = new SystemMessage(systemMessageHeader + hotelData);
+                    chatMemory.add(conversationId, hotelContextMessage);
+                    chatMemory.add(conversationId, new UserMessage(userQuery));
+                    ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
+                    returnText = response.getResult().getOutput().getText();
+                }
+        
+                case "HotelRoom" -> {
+                    System.out.println("userQuery classified as type: HotelRoom!");
+                    List<HotelRoom> rooms = hotelRoomEmbeddingService.findTop5BySimilarity(userQueryEmbedding);
+                    String roomData = rooms.stream().map(HotelRoom::toJsonObjectString)
+                            .collect(Collectors.joining("\n"));
+                    SystemMessage hotelRoomContextMessage = new SystemMessage(systemMessageHeader + roomData);
+                    chatMemory.add(conversationId, hotelRoomContextMessage);
+                    chatMemory.add(conversationId, new UserMessage(userQuery));
+                    ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
+                    returnText = response.getResult().getOutput().getText();
+                }
+        
+                case "Booking" -> {
+                    System.out.println("userQuery classified as type: Booking!");
+                    List<Message> messages = new ArrayList<>();
+                    List<Message> conversationHistory = chatMemory.get(conversationId);
+                    long numSystemMessage = conversationHistory.stream()
+                            .filter(message -> message instanceof SystemMessage)
+                            .count();
+                    if (numSystemMessage < 2) {
                         List<Hotel> hotels = hotelEmbeddingService.findTop3BySimilarity(userQueryEmbedding);
                         String hotelData = hotels.stream().map(Hotel::toJsonObjectString)
                                 .collect(Collectors.joining("\n"));
-                        // System.out.println(systemMessageHeader + hotelData);
                         SystemMessage hotelContextMessage = new SystemMessage(systemMessageHeader + hotelData);
                         chatMemory.add(conversationId, hotelContextMessage);
                         chatMemory.add(conversationId, new UserMessage(userQuery));
                     }
-
-                    case "HotelRoom" -> {
-                        System.out.println("userQuery classified as type: HotelRoom!");
-                        List<HotelRoom> rooms = hotelRoomEmbeddingService.findTop5BySimilarity(userQueryEmbedding);
-                        String roomData = rooms.stream().map(HotelRoom::toJsonObjectString)
-                                .collect(Collectors.joining("\n"));
-                        // System.out.println(systemMessageHeader + roomData);
-                        SystemMessage hotelRoomContextMessage = new SystemMessage(systemMessageHeader + roomData);
-                        chatMemory.add(conversationId, hotelRoomContextMessage);
-                        chatMemory.add(conversationId, new UserMessage(userQuery));
-                    }
-
-                    default -> System.out.println("User query is not about Hotel or HotelRoom! Break!");
+                    String bookingChatbotInitalContext = """
+                            Based on conversational context of the following messages identify a single hotel the user wishes to book a stay at. \
+                            If unable to confidently determine a single hotel, return the hotelId of the closest match. \
+                            The messages can include JSON data as well as user and AI assistant text responses. Do not fabricate data. \
+                            Only return a response in this format: \"hotelToBook: data\", where data is the hotelId value of the hotel you've identified. 
+                            """;
+                    messages.add(new SystemMessage(bookingChatbotInitalContext));
+                    messages.addAll(chatMemory.get(conversationId));
+                    ChatResponse response = chatModel.call(new Prompt(messages));
+                    returnText = response.getResult().getOutput().getText();
+                    // chatMemory.add(conversationId, new AssistantMessage(returnText));
+                    // return returnText; // early return, if this is triggered than the conversation ends on client-side
                 }
-
-                ChatResponse response = chatModel.call(new Prompt(chatMemory.get(conversationId)));
-                returnText = response.getResult().getOutput().getText();
-                
-            } catch (IOException err) {
-                err.printStackTrace();
-                System.out.println("Error thrown in ChatService.generateResponse()!");
+        
+                default -> {
+                    System.out.println("User query is not about Hotel or HotelRoom! Break!");
+                    returnText = "Sorry, I couldn't understand your request.";
+                }
             }
+        
+        } catch (IOException err) {
+            err.printStackTrace();
+            System.out.println("Error thrown in ChatService.generateResponse()!");
+            returnText = "Something went wrong. Please try again later.";
         }
+        
         chatMemory.add(conversationId, new AssistantMessage(returnText));
         return returnText;
     }

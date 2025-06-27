@@ -76,6 +76,7 @@ public class AuthController {
         }
     }
 
+    // logout and revoke the token
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

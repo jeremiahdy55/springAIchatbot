@@ -1,31 +1,51 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import SearchBar from "./HomePageComponents.js/SearchBar";
-import FilterSection from "./HomePageComponents.js/FilterSidebar";
-import HotelDisplay from "./HomePageComponents.js/HotelDisplay";
+import SearchBar from "./HomePageComponents/SearchBar";
+import FilterSection from "./HomePageComponents/FilterSidebar";
+import HotelDisplay from "./HomePageComponents/HotelDisplay";
+import { filterHotels } from "../HTTPComms/HotelAPI";
+import AIChatbotButton from "./HomePageComponents/AIChatbotButton";
 
 const Home = () => {
-  const [hotels, setHotels] = useState([]); // You would fill this from your API
+  // Define hooks
+  const navigate = useNavigate();
+
+  const [hotels, setHotels] = useState([]);
   const [combinedParams, setCombinedParams] = useState({});
 
-  // When Search calls back, merge search params into combinedParams
-  const handleSearch = (searchParams) => {
-    setCombinedParams((prev) => {
-      const updated = { ...prev, ...searchParams };
-      console.log("Combined Params on Search:", updated);
-      return updated;
-    });
+  // When SearchBar calls back, merge search params into combinedParams
+  // and call jwtsecurity -> hotelchatbot to retrieve hotel data that fits the new params
+  const handleSearch = async (searchParams) => {
+    const updatedParams = { ...combinedParams, ...searchParams };
+    console.log({ updatedParams });
+    setCombinedParams(updatedParams);
+    const hotelData = await filterHotels(updatedParams);
+    setHotels(hotelData);
   };
 
-  // When Filter calls back, merge filter params into combinedParams
-  const handleFilter = (filterParams) => {
-    setCombinedParams((prev) => {
-      const updated = { ...prev, ...filterParams };
-      console.log("Combined Params on Filter:", updated);
-      return updated;
-    });
+  // When FilterSidebar calls back, merge filter params into combinedParams
+  // and call jwtsecurity -> hotelchatbot to retrieve hotel data that fits the new params
+  const handleFilter = async (filterParams) => {
+    const updatedParams = { ...combinedParams, ...filterParams };
+    console.log({ updatedParams });
+    setCombinedParams(updatedParams);
+    const hotelData = await filterHotels(updatedParams);
+    setHotels(hotelData);
   };
+
+  // On component mount, load all the hotels
+  useEffect(() => {
+    const loadHotels = async () => {
+      try {
+        const hotelData = await filterHotels({}); // fetch hotels
+        setHotels(hotelData);
+      } catch (err) {
+        console.error("Error fetching hotels:", err);
+      }
+    };
+    loadHotels();
+  }, []);
 
   return (
     <>
@@ -35,6 +55,7 @@ const Home = () => {
         <FilterSection onFilter={handleFilter} />
         <HotelDisplay hotels={hotels} />
       </div>
+      <AIChatbotButton />
     </>
   );
 };

@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-// import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "hotels")
@@ -234,10 +233,11 @@ public class Hotel {
 		return sb.toString();
 	}
 
-	// formats the Hotel object into a JSON format
+	// formats the Hotel object into a JSON format with slightly less granularity
     public String toJsonObjectString() {
         StringBuilder sb = new StringBuilder();
 		sb.append("{");
+		sb.append("\"hotelId\": ").append(hotelId).append(", ");
 		sb.append("\"name\": ").append(wrapInQuotes(hotelName)).append(", ");
 		sb.append("\"address\": \"").append(address).append(", ").append(city).append(", ").append(state).append("\", ");
 		sb.append("\"starRating\": ").append(starRating).append(", ");
@@ -246,7 +246,7 @@ public class Hotel {
 		sb.append("\"description\": ").append(wrapInQuotes(description)).append(", ");
 		sb.append("\"email\": ").append(wrapInQuotes(email)).append(", ");
 		sb.append("\"mobile\": ").append(wrapInQuotes(mobile)).append(", ");
-		sb.append("\"timeBooked\": ").append(timesBooked).append(", ");
+		sb.append("\"timesBooked\": ").append(timesBooked).append(", ");
 	
 		if (amenities != null && !amenities.isEmpty()) {
 			sb.append("\"amenities\": [");
@@ -270,6 +270,65 @@ public class Hotel {
 				roomSB.append("\"type\": ").append(wrapInQuotes(room.getType().getName())).append(", ");
 				roomSB.append("\"availabilityStartDate\": ").append(wrapInQuotes(room.getAvailabilityStartDate())).append(", ");
 				roomSB.append("\"availabilityEndDate\": ").append(wrapInQuotes(room.getAvailabilityEndDate())).append(", ");
+				Set<Amenities> roomAmenities = room.getAmenities();
+				roomAmenities.removeAll(this.amenities);
+				roomSB.append("\"amenities\": [").append(roomAmenities.stream().map(Amenities::getName).map(amenity -> wrapInQuotes(amenity)).collect(Collectors.joining(", "))).append("]}, ");
+			}
+			roomSB.deleteCharAt(roomSB.length()-1);
+			roomSB.deleteCharAt(roomSB.length()-1);
+			roomSB.append("]");
+			roomSB.append("}");
+			sb.append("\"guestCapacityRemaining\": ").append(guestsAvailable).append(", ");
+			sb.append(roomSB);
+		}
+        return sb.toString();
+    }
+
+	// formats the Hotel object into a JSON format with full granularity (included id, HotelRooms are fully expanded, etc.)
+    public String toJsonObjectStringFullDetail() {
+        StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		sb.append("\"hotelId\": ").append(hotelId).append(", ");
+		sb.append("\"name\": ").append(wrapInQuotes(hotelName)).append(", ");
+		sb.append("\"address\": \"").append(address).append(", ").append(city).append(", ").append(state).append("\", ");
+		sb.append("\"starRating\": ").append(starRating).append(", ");
+		sb.append("\"avgPrice\": ").append(String.format("%.2f", averagePrice)).append(", ");
+		sb.append("\"discount\": ").append(String.format("%.2f", discount)).append(", ");
+		sb.append("\"description\": ").append(wrapInQuotes(description)).append(", ");
+		sb.append("\"email\": ").append(wrapInQuotes(email)).append(", ");
+		sb.append("\"mobile\": ").append(wrapInQuotes(mobile)).append(", ");
+		sb.append("\"timesBooked\": ").append(timesBooked).append(", ");
+		sb.append("\"imageURL\": ").append(wrapInQuotes(imageURL)).append(", ");
+
+	
+		if (amenities != null && !amenities.isEmpty()) {
+			sb.append("\"amenities\": [");
+			for (Amenities amenity : amenities) {
+				sb.append(wrapInQuotes(amenity.getName())).append(", ");
+			}
+			sb.deleteCharAt(sb.length()-1);
+			sb.deleteCharAt(sb.length()-1);
+			sb.append("], ");
+		}
+		
+	
+		if (hotelRooms != null && !hotelRooms.isEmpty()) {
+			int guestsAvailable = 0;
+			StringBuilder roomSB = new StringBuilder();
+			roomSB.append("\"rooms\": [");
+			for (HotelRoom room : hotelRooms) {
+				guestsAvailable += (room.getNoRooms() * room.getGuestsPerRoom());
+				roomSB.append("{");
+				roomSB.append("\"hotelRoomId\": ").append(room.getHotelRoomId()).append(", ");
+				roomSB.append("\"type\": ").append(wrapInQuotes(room.getType().getName())).append(", ");
+				roomSB.append("\"availabilityStartDate\": ").append(wrapInQuotes(room.getAvailabilityStartDate())).append(", ");
+				roomSB.append("\"availabilityEndDate\": ").append(wrapInQuotes(room.getAvailabilityEndDate())).append(", ");
+				roomSB.append("\"description\": ").append(wrapInQuotes(room.getDescription())).append(", ");
+				roomSB.append("\"policies\": ").append(wrapInQuotes(room.getPolicies())).append(", ");
+				roomSB.append("\"discount\": ").append(String.format("%.2f", room.getDiscount())).append(", ");
+				roomSB.append("\"price\": ").append(String.format("%.2f", room.getPrice())).append(", ");
+				roomSB.append("\"noRooms\": ").append(room.getNoRooms()).append(", ");
+				roomSB.append("\"guestsPerRoom\": ").append(room.getGuestsPerRoom()).append(", ");
 				Set<Amenities> roomAmenities = room.getAmenities();
 				roomAmenities.removeAll(this.amenities);
 				roomSB.append("\"amenities\": [").append(roomAmenities.stream().map(Amenities::getName).map(amenity -> wrapInQuotes(amenity)).collect(Collectors.joining(", "))).append("]}, ");

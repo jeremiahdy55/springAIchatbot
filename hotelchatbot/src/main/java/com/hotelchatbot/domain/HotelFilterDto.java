@@ -1,7 +1,6 @@
 package com.hotelchatbot.domain;
 
 import java.util.List;
-import java.util.List;
 
 public class HotelFilterDto {
     private String keyword;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hotelchatbot.domain.Booking;
+import com.hotelchatbot.domain.HotelRoom;
 import com.hotelchatbot.repository.BookingRepository;
 
 @Service
@@ -15,11 +16,23 @@ public class BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
+    @Autowired
+    HotelRoomService hotelRoomService;
+
     public List<Booking> findAll() {
         return bookingRepository.findAll();
     }
     public Booking save(Booking booking) {
-        return bookingRepository.save(booking);
+        // reduce the noRooms of this HotelRoom by one, since somebody booked it
+        HotelRoom room = booking.getHotelRoom();
+        room.setNoRooms(room.getNoRooms() - 1);
+        try {
+            hotelRoomService.save(room);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Booking savedBooking = bookingRepository.save(booking);
+        return savedBooking;
     }
     public Booking findById(int id) {
 		Optional<Booking> data = bookingRepository.findById(id);

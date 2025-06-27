@@ -8,7 +8,7 @@ function SearchBar({ onSearch }) {
   const [checkOutDate, setCheckOutDate] = useState("");
 
   const handleSearchClick = () => {
-    onSearch({ searchLocation: keyword, noRooms, noGuests, checkInDate, checkOutDate });
+    onSearch({ keyword, noRooms, noGuests, checkInDate, checkOutDate });
   };
 
   return (

@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:9000")  // Security "Gateway" microservice (a.k.a jwtsecurity)
+                        .allowedOrigins("http://localhost:9000")  // reactUI origin
                         .allowedMethods("GET", "POST", "DELETE", "OPTIONS")
                         .allowedHeaders("*");
             }
