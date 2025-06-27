@@ -20,7 +20,7 @@ import com.jwtsecurity.security.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
-public class SpringSecurityConfig {
+public class SecurityConfig {
 
     @Autowired
     UserDetailsService userDetailsService;
@@ -37,7 +37,7 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> {
