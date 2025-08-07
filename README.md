@@ -5,7 +5,7 @@ Finish filling in `secrets.txt` in `/jwtsecurity/src/main/java/resources/secrets
 Finish filling in `secrets.txt` in `/hotelchatbot/src/main/java/resources/secrets.txt`
 
 Running the application:
-ensure that there is a postgresql database called `springchatbot` created with `pgvector` extension installed
+ensure that there is a MySQL database called `springchatbot` created with `pgvector` extension installed
 run `./mvnw spring-boot:run` in terminal:jwtsecurity
 run `./mvnw spring-boot:run` in terminal:hotelchatbot
 run `npm run build` then `npm start` in terminal:reactUI
