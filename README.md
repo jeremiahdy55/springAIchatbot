@@ -1,6 +1,6 @@
 # Hotel Registry with AI-powered Chatbot
 
-[📄 Project Documentation (PDF)](https://github.com/jeremiahdy55/springAIchatbot/blob/main/Hotel%20Chatbot%20Project%20-%20June%202025.pdf)
+[📄 Project Presentation (PDF)](https://github.com/jeremiahdy55/springAIchatbot/blob/main/Hotel%20Chatbot%20Project%20-%20June%202025.pdf)
 
 Project Duration: June 2025 (one month)
 
