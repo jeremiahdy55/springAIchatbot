@@ -88,7 +88,7 @@ npm run build
 npm start
 ```
 
-### Accessing the Project Application
+### Accessing the Application
 The application is accessible at `http://localhost:9000`. You may register a new user if desired. A default user profile is configured with:
 - username: `admin`
 - password: `admin`
