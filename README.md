@@ -73,7 +73,7 @@ These will be ignored by Github and will be your unique keys for JWT signing.
       - App password for the above email address (*similar to personal access token, generate an app password to allow your email service provider to *trust* your application)
    - Change the extension of the file from `.txt` to `.properties` (*it should be now ignored by Github!*)
 
-### Starting the applications
+### Starting the services
 
 For each *Spring-Boot* microservice application (`hotelchatbot`, `jwtsecurity`), open a terminal and navigate to the root directory of that MS applciation. Then, run:
 ```
