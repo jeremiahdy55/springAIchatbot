@@ -7,7 +7,7 @@ Project Duration: June 2025 (one month)
 ## Table of Contents
 - [Project Overview](#1-project-overview)
 - [Project Architecture](#2-project-architecture)
-- [Installation & Setup](#3-installation--setup)
+- [Installation, Setup, and Run](#3-installation-setup-and-run)
 - [Future Steps](#4-future-steps)
 
 ---
@@ -45,7 +45,7 @@ The Backend database access microservice is built with Spring Boot and powered b
 
 The JWT Security microservice is built with Spring Boot and powered by *Spring Security* for authentication and authorization. It uses *Spring Data JPA* with a *PostgreSQL* database for secure and efficient data persistence, and *JJWT* (Java JWT) for JSON Web Token handling. This service acts as a gateway, blocking unauthorized access to database resources and ensuring that every request from the React UI passes through token verification. JWTs are issued and validated using RSA256 signing with public and private keys. When a user logs out, the issued token is added to a “revoked list,” preventing it from being reused.
 
-## 3. Installation & Setup
+## 3. Installation, Setup, and Run
 
 ### Configuring PostgreSQL database
 
