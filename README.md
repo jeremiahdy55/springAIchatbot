@@ -39,7 +39,9 @@ The React UI microservice techstack uses *React.js* and its related packages to 
 
 ### Backend - Database Access
 
-The Backend database access microservice is built with Spring Boot and powered by *Spring Data JPA* for database interactions with a *PostgreSQL* instance enhanced by the *pgvector* extension for vector-based similarity search. It uses *Apache HTTP Client 5* to communicate with OpenAI’s APIs for both text responses and embedding generation. The generated embeddings are stored in the database and leveraged for semantic search (using vector cosine similarity), enabling the system to return relevant hotel, room, or booking data for natural language queries. *Spring AI* helps streamline AI model integration, and *Jackson* is used for efficient JSON processing. This service is responsible for creating, retrieving, and managing all hotel, room, and booking records in the system.
+The backend microservice is built with Spring Boot and powered by Spring Data JPA for database interactions with a PostgreSQL instance enhanced by the pgvector extension for vector-based similarity search. It uses Apache HTTP Client 5 to communicate with OpenAI’s APIs for both text responses and embedding generation. The generated embeddings are stored in the database and leveraged for semantic search (using vector cosine similarity), enabling the system to return relevant hotel or hotel-room data for natural language queries and responses. Spring AI helps streamline AI model integration, and Jackson is used for efficient JSON processing. This service is responsible for creating, retrieving, and managing all hotel, room, and booking records in the system.
+
+The Backend database access microservice is built with Spring Boot and powered by *Spring Data JPA* for database interactions with a *PostgreSQL* instance enhanced by the *pgvector* extension for vector-based similarity search. It uses *Apache HTTP Client 5* to communicate with OpenAI’s APIs for both text responses and embedding generation. The generated embeddings are stored in the database and leveraged for semantic search (using vector cosine similarity), enabling the system to return relevant hotel or hotel-room booking data for natural language queries and responses. *Spring AI* helps streamline AI model integration, and *Jackson* is used for efficient JSON processing. This service is responsible for creating, retrieving, and managing all hotel, room, and booking records in the system.
 
 ### JWT Security & Authentication
 
@@ -97,6 +99,8 @@ The application is accessible at `http://localhost:9000`. You may register a new
 
 To expand on this project into a more fully-developed production style application, future steps could include:
 - Conversation storage per user, allow user to view past chats (also clear stale chats)
-- More robust multi-lingual support (currently, user must prompt for a certain language first)
+- More robust multi-lingual support
+   - Currently, user must prompt for a certain language first
 - Greater hotel and hotel room data variety to test the effectiveness of vector similarity search
 - More robust data validation when submitting a booking request
+- Integration with a third-party banking/payment service
